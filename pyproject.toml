@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ESP32-pump-monitor"
+dynamic = ["version"]
+description = "Simple monitoring service for one or more ESP32 devices, with client and server packages"
+readme = "README.md"
+requires-python = ">=3.10"
+license-files = ["LICENSE"]
+license = "MIT"
+
+[project.optional-dependencies]
+server = [
+    "fastapi",
+    "sqlalchemy"
+]
+
+[tool.hatch.version]
+path = "esp32_pump_service/__init__.py"
+
+[tool.hatch.envs.server]
+extra-dependencies = [
+    "gunicorn",
+    "uvicorn"
+]
+
+[tool.hatch.envs.client]
+skip-install = true
+extra-dependencies = [
+    "esptool"
+]
+
+[tool.hatch.build]
+only-packages = true
+sources = ["src"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/esp32_pump_service"]
+
+[tool.hatch.build.targets.wheel]
+include = ["/esp32_pump_service"]
